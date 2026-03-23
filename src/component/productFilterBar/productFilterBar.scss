@@ -1,0 +1,115 @@
+@use "../../scss/abstracts/breakpoints" as bp;
+
+.product-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 24px;
+  width: 100%;
+  margin-top: 24px;
+  text-align: left;
+  font-family: var(--sans);
+}
+
+.product-filter-bar__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.product-filter-bar__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.product-filter-bar__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.product-filter-bar__pill {
+  padding: 8px 14px;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  &--active {
+    border-color: var(--primary);
+    color: var(--text);
+    background: var(--surface);
+    box-shadow: 0 0 0 1px var(--primary);
+  }
+}
+
+.product-filter-bar__sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 auto;
+  min-width: min(100%, 220px);
+}
+
+.product-filter-bar__sort-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.product-filter-bar__select {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+@include bp.mobile-down {
+  .product-filter-bar__sort {
+    width: 100%;
+    min-width: 0;
+  }
+}

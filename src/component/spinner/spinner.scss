@@ -1,0 +1,54 @@
+// Loader.scss
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.loader-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+
+  .loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    .loader-spinner {
+      display: inline-flex;
+      color: var(--text);
+      animation: spin 1s linear infinite;
+    }
+
+    .loader-message {
+      margin: 0;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      font-family: var(--sans);
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+  }
+}

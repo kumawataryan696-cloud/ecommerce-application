@@ -1,0 +1,63 @@
+@use "../abstracts/breakpoints" as bp;
+@use "../abstracts/colors" as c;
+@use "../abstracts/variables" as v;
+
+:root {
+  --black: #{c.$black};
+  --white: #{c.$white};
+  --primary: #{c.$primary};
+  --pink: #{c.$pink};
+
+  --accent-gradient: linear-gradient(135deg, var(--primary), var(--pink));
+
+  --text: #0a0a0a;
+  --text-h: #0a0a0a;
+  --text-muted: #737373;
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --border: #e5e5e5;
+  --border-strong: #0a0a0a;
+
+  --code-bg: #f4f4f4;
+  --code-color: #0a0a0a;
+  --accent: var(--primary);
+  --accent-bg: var(--primary);
+  --accent-border: var(--pink);
+  --social-bg: var(--primary);
+  --on-primary: var(--white);
+
+  --sans: #{v.$font-sans};
+  --heading: #{v.$font-heading};
+  --mono: #{v.$font-mono};
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.02em;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @include bp.tablet-down {
+    font-size: 16px;
+  }
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+}

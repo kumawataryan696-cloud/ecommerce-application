@@ -1,0 +1,41 @@
+.checkout-page {
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+  text-align: center;
+  font-family: var(--sans);
+  color: var(--text);
+
+  &__title {
+    margin: 0 0 12px;
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__hint {
+    margin: 0 0 24px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  &__link {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      color: var(--text-muted);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 4px;
+    }
+  }
+}

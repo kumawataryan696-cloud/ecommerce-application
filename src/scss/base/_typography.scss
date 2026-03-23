@@ -1,0 +1,54 @@
+@use "../abstracts/breakpoints" as bp;
+@use "../abstracts/variables" as v;
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 25px;
+  list-style: 40px;
+
+  @include bp.tablet-down {
+    font-size: 20px;
+    
+  }
+  @include bp.mobile-down {
+    font-size: 18px;
+    
+  }
+}
+
+h2 {
+  font-size: 22px;
+  list-style: 30px;
+
+  @include bp.tablet-down {
+    font-size: 18px;
+  }
+  @include bp.mobile-down {
+    font-size: 16px;
+  }
+}
+
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: v.$radius-code;
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  color: var(--code-color);
+  background: var(--code-bg);
+}

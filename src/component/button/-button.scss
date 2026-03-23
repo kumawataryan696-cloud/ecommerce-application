@@ -1,0 +1,45 @@
+.custom_button {
+  display: inline-flex;
+  padding: 12px 20px;
+  align-items: center;
+  line-height: 1;
+  justify-content: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 0;
+  color: var(--white);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  background: var(--black);
+  box-shadow: none;
+  width: max-content;
+  border: 1px solid var(--black);
+
+  &:hover:not(:disabled) {
+    background: #2a2a2a;
+    border-color: #2a2a2a;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .icon_wrap {
+    transition: opacity 0.2s ease;
+
+    > svg {
+      width: 16px;
+      height: 21px;
+      display: block;
+    }
+  }
+}
