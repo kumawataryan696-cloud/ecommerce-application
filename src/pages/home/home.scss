@@ -1,0 +1,60 @@
+@use "../../scss/abstracts/breakpoints" as bp;
+
+.home-page {
+  width: 100%;
+  text-align: center;
+
+  &__title {
+    font-weight: 700;
+    font-family: var(--sans);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0 0 8px;
+  }
+
+  &__hint {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--sans);
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    align-items: stretch;
+    gap: 20px;
+    text-align: left;
+    width: 100%;
+    margin-top: 20px;
+
+    > * {
+      min-height: 0;
+    }
+  }
+
+  &__status {
+    font-size: 16px;
+    font-weight: 400;
+    font-family: var(--sans);
+    color: var(--text);
+  }
+
+  &__status--error {
+    color: #b91c1c;
+  }
+
+  &__grid-cell {
+    box-sizing: border-box;
+    padding: 0 10px 20px;
+  }
+}
+
+@include bp.mobile-down {
+  .home-page__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

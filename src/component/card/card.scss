@@ -1,0 +1,124 @@
+@use "../../scss/abstracts/breakpoints" as bp;
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  border-radius: 0;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  text-align: left;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &[role="button"] {
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:hover {
+      border-color: var(--text-muted);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 200px;
+    background-color: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+      display: block;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    padding: 14px 16px 16px;
+
+    @include bp.mobile-down {
+      padding: 12px 14px 14px;
+    }
+  }
+
+  &__category {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  &__heading {
+    font-size: 0.83rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__subheading {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__price {
+    margin-top: 4px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 4px;
+    button {
+      width: 100%;
+      border-radius: 5px;
+      
+    }
+  }
+
+  &__button--secondary.custom_button {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    box-shadow: none;
+    color: var(--text);
+
+    &:hover:not(:disabled) {
+      border-color: var(--black);
+      background: var(--surface);
+    }
+  }
+}
