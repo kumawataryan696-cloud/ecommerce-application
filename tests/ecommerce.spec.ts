@@ -27,7 +27,10 @@ test.describe("Home (product listing)", () => {
   }) => {
     await page.goto("/");
 
-    await expect(page.getByRole("button", { name: "All" })).toBeVisible({
+    const filterBar = page.locator(".product-filter-bar");
+    await expect(
+      filterBar.getByRole("button", { name: "All", exact: true }),
+    ).toBeVisible({
       timeout: 30_000,
     });
     await expect(
@@ -40,7 +43,10 @@ test.describe("Home (product listing)", () => {
   }) => {
     await page.goto("/");
 
-    await expect(page.getByRole("button", { name: "Electronics" })).toBeVisible({
+    const filterBar = page.locator(".product-filter-bar");
+    await expect(
+      filterBar.getByRole("button", { name: "Electronics", exact: true }),
+    ).toBeVisible({
       timeout: 30_000,
     });
 
@@ -51,7 +57,7 @@ test.describe("Home (product listing)", () => {
         res.status() === 200,
     );
 
-    await page.getByRole("button", { name: "Electronics" }).click();
+    await filterBar.getByRole("button", { name: "Electronics", exact: true }).click();
     await listRequest;
 
     await expect(page).toHaveURL(/[?&]category=electronics/);
@@ -129,7 +135,10 @@ test.describe("Cart and footer", () => {
     await page.getByRole("button", { name: "view product" }).first().click();
     await page.getByRole("button", { name: /add to cart/i }).click();
 
-    await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Cart" }).click();
+    await page
+      .getByRole("navigation", { name: "Main" })
+      .getByRole("link", { name: "Cart", exact: true })
+      .click();
 
     await expect(page.getByRole("heading", { name: /shopping cart/i })).toBeVisible();
     await expect(page.locator(".cart-line").first()).toBeVisible();
@@ -140,7 +149,10 @@ test.describe("Navigation", () => {
   test("Products nav redirects to home", async ({ page }) => {
     await page.goto("/");
 
-    await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Products" }).click();
+    await page
+      .getByRole("navigation", { name: "Main" })
+      .getByRole("link", { name: "Products", exact: true })
+      .click();
 
     await expect(page).toHaveURL("/");
   });
