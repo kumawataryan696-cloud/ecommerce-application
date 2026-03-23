@@ -7,7 +7,12 @@ import {
   ProductFilterBar,
   type SortKey,
 } from "../../component/productFilterBar";
-import { getProductList, type Product } from "../service/service";
+import {
+  getProductCategories,
+  getProductList,
+  getProductsByCategory,
+  type Product,
+} from "../service/service";
 import "./home.scss";
 import Spinner from "../../component/spinner/spinner";
 
@@ -20,26 +25,16 @@ function mapProductToCard(p: Product): ProductCardFields {
   };
 }
 
-function deriveCategories(products: Product[]): string[] {
-  const set = new Set<string>();
-  for (const p of products) set.add(p.category);
-  return [...set].sort((a, b) => a.localeCompare(b));
-}
-
 export default function Home() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get("category");
 
+  const [categories, setCategories] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("featured");
-
-  const categories = useMemo(
-    () => deriveCategories(products),
-    [products],
-  );
 
   const selectedCategory = useMemo((): "all" | string => {
     if (!categoryParam) return "all";
@@ -47,30 +42,45 @@ export default function Home() {
     return categories.includes(categoryParam) ? categoryParam : "all";
   }, [categoryParam, categories]);
 
-  const fetchProducts = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await getProductList();
-      setProducts(Array.isArray(data) ? data : []);
-    } catch {
-      setError("Failed to fetch products");
-    } finally {
-      setLoading(false);
-    }
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const list = await getProductCategories();
+        if (!cancelled) setCategories(list);
+      } catch {
+        if (!cancelled) setCategories([]);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
-    void fetchProducts();
-  }, [fetchProducts]);
-
-  const filtered = useMemo(() => {
-    if (selectedCategory === "all") return products;
-    return products.filter((p) => p.category === selectedCategory);
-  }, [products, selectedCategory]);
+    let cancelled = false;
+    void (async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data =
+          selectedCategory === "all"
+            ? await getProductList()
+            : await getProductsByCategory(selectedCategory);
+        if (!cancelled) setProducts(data);
+      } catch {
+        if (!cancelled) setError("Failed to fetch products");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedCategory]);
 
   const sorted = useMemo(() => {
-    const arr = [...filtered];
+    const arr = [...products];
     switch (sortKey) {
       case "featured":
         return arr;
@@ -83,7 +93,7 @@ export default function Home() {
       default:
         return arr;
     }
-  }, [filtered, sortKey]);
+  }, [products, sortKey]);
 
   const handleCategoryChange = useCallback(
     (category: "all" | string) => {
@@ -117,7 +127,7 @@ export default function Home() {
       {loading ? <Spinner open={loading} message="Loading products..." /> : null}
       {error ? <p className="home-page__status home-page__status--error">{error}</p> : null}
 
-      {!loading && !error && products.length > 0 ? (
+      {!loading && !error && categories.length > 0 ? (
         <ProductFilterBar
           categories={categories}
           selectedCategory={selectedCategory}

@@ -45,3 +45,27 @@ export const getProductById = async (
   const response = await api.get<Product>(`/products/${id}`);
   return response.data;
 };
+
+function normalizeCategoryList(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const out: string[] = [];
+  for (const item of raw) {
+    if (typeof item === "string" && item.trim() !== "") out.push(item);
+  }
+  return [...new Set(out)].sort((a, b) => a.localeCompare(b));
+}
+
+/** FakeStore: GET /products/categories */
+export const getProductCategories = async (): Promise<string[]> => {
+  const response = await api.get<unknown>("/products/categories");
+  return normalizeCategoryList(response.data);
+};
+
+/** FakeStore: GET /products/category/:category */
+export const getProductsByCategory = async (
+  category: string,
+): Promise<Product[]> => {
+  const path = `/products/category/${encodeURIComponent(category)}`;
+  const response = await api.get<unknown>(path);
+  return normalizeProductList(response.data);
+};
