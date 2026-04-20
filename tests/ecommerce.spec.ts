@@ -1,21 +1,25 @@
 import { test, expect } from "@playwright/test";
 
 const CART_STORAGE_KEY = "ecommerce-cart-v1";
+const WISHLIST_STORAGE_KEY = "ecommerce-wishlist-v1";
 
 test.beforeEach(async ({ context }) => {
-  await context.addInitScript((key) => {
-    try {
-      window.localStorage.removeItem(key);
-    } catch {
-      /* ignore */
-    }
-  }, CART_STORAGE_KEY);
+  await context.addInitScript(
+    ([cartKey, wishlistKey]) => {
+      try {
+        window.localStorage.removeItem(cartKey);
+        window.localStorage.removeItem(wishlistKey);
+      } catch {
+        /* ignore */
+      }
+    },
+    [CART_STORAGE_KEY, WISHLIST_STORAGE_KEY],
+  );
 });
 
 test.describe("Home (product listing)", () => {
   test("loads store title and catalog heading", async ({ page }) => {
     await page.goto("/");
-
     await expect(page).toHaveTitle(/Luxe Store/);
     await expect(
       page.getByRole("heading", { name: /Discover Premium Products/i }),
