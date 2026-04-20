@@ -3,7 +3,6 @@ import { useSyncExternalStore } from "react";
 export type CartLine = {
   productId: string;
   quantity: number;
-  /** Unit price in USD (e.g. 89.99) */
   unitPrice: number;
   title: string;
   image: string;
@@ -90,6 +89,8 @@ function setState(next: CartState) {
   persistLines(state.lines);
   emit();
 }
+
+
 
 function mergeLine(
   lines: CartLine[],
@@ -184,3 +185,5 @@ export function getCartState(): CartState {
 export function useCartStore(): CartState {
   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 }
+
+

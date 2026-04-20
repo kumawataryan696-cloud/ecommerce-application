@@ -223,6 +223,14 @@
       outline: 2px solid var(--primary);
       outline-offset: 4px;
     }
+
+    &--active {
+      color: var(--primary, #c9a227);
+
+      svg {
+        color: var(--primary, #c9a227);
+      }
+    }
   }
 
   &--status {
