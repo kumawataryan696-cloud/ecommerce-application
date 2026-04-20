@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useCartStore } from "../../route/store/CartStore";
+import { useWishlist } from "../../route/store/WishlistContext";
 import "./navbar.scss";
 
 function CartIcon() {
@@ -54,10 +55,10 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-type NavbarMobileMenusProps = { cartCount: number };
+type NavbarMobileMenusProps = { cartCount: number; wishlistCount: number };
 
 /** Remounts on navigation (`key={location.key}`) so the menu closes without an effect. */
-function NavbarMobileMenus({ cartCount }: NavbarMobileMenusProps) {
+function NavbarMobileMenus({ cartCount, wishlistCount }: NavbarMobileMenusProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const firstDrawerLinkRef = useRef<HTMLAnchorElement>(null);
 
@@ -152,6 +153,15 @@ function NavbarMobileMenus({ cartCount }: NavbarMobileMenusProps) {
             </li>
             <li>
               <NavLink
+                to="/wishlist"
+                className={drawerLinkClass}
+                onClick={closeMenu}
+              >
+                Wishlist{wishlistCount > 0 ? ` (${wishlistCount})` : ""}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/cart"
                 className={drawerLinkClass}
                 onClick={closeMenu}
@@ -181,6 +191,9 @@ function NavbarMobileMenus({ cartCount }: NavbarMobileMenusProps) {
 export function Navbar() {
   const location = useLocation();
   const { lines } = useCartStore();
+  const { items: wishlistItems } = useWishlist();
+
+  const wishlistCount = wishlistItems.length;
 
   const cartCount = useMemo(
     () => lines.reduce((n, line) => n + line.quantity, 0),
@@ -192,7 +205,11 @@ export function Navbar() {
 
   return (
     <nav className="navbar navbar--store" aria-label="Main">
-      <NavbarMobileMenus key={location.key} cartCount={cartCount} />
+      <NavbarMobileMenus
+        key={location.key}
+        cartCount={cartCount}
+        wishlistCount={wishlistCount}
+      />
 
       <Link to="/" className="navbar__logo">
         Luxe Store
@@ -207,6 +224,11 @@ export function Navbar() {
         <li>
           <NavLink to="/products" className={navLinkClass}>
             Products
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/wishlist" className={navLinkClass}>
+            Wishlist{wishlistCount > 0 ? ` (${wishlistCount})` : ""}
           </NavLink>
         </li>
         <li>

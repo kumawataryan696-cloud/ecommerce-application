@@ -55,13 +55,12 @@ function normalizeCategoryList(raw: unknown): string[] {
   return [...new Set(out)].sort((a, b) => a.localeCompare(b));
 }
 
-/** FakeStore: GET /products/categories */
+
 export const getProductCategories = async (): Promise<string[]> => {
   const response = await api.get<unknown>("/products/categories");
   return normalizeCategoryList(response.data);
 };
 
-/** FakeStore: GET /products/category/:category */
 export const getProductsByCategory = async (
   category: string,
 ): Promise<Product[]> => {

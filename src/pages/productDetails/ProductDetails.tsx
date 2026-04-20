@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Breadcrumbs } from "../../component/breadcrumbs";
 import { getProductById, type Product } from "../service/service";
+
 import "./productDetails.scss";
 import Button from "../../component/button/button";
 import Spinner from "../../component/spinner/spinner";
 import { cartActions, useCartStore } from "../../route/store/CartStore";
+import { useWishlist } from "../../route/store/WishlistContext";
 import { formatCategoryLabel } from "../../utils/formatCategory";
 
 function truncateBreadcrumbTitle(title: string, max = 50): string {
@@ -57,6 +59,7 @@ export default function ProductDetails() {
   const [qty, setQty] = useState(1);
   const navigate = useNavigate();
   const { lines } = useCartStore();
+  const { items: wishlistItems, toggle: toggleWishlist } = useWishlist();
 
   const inCartQty = useMemo(() => {
     if (!id) return 0;
@@ -153,6 +156,10 @@ export default function ProductDetails() {
     );
   }
 
+  const inWishlist = wishlistItems.some(
+    (i) => i.productId === String(product.id),
+  );
+
   const bumpQty = (delta: number) => {
     setQty((q) => Math.max(1, q + delta));
   };
@@ -165,6 +172,15 @@ export default function ProductDetails() {
       product.title,
       product.image,
     );
+  };
+  const handleWishlistToggle = () => {
+    toggleWishlist({
+      productId: String(product.id),
+      title: product.title,
+      image: product.image,
+      price: product.price,
+      category: product.category,
+    });
   };
 
   return (
@@ -237,9 +253,14 @@ export default function ProductDetails() {
             </button>
           </div>
 
-          <button type="button" className="product-details__wishlist">
+          <button
+            type="button"
+            onClick={handleWishlistToggle}
+            className={`product-details__wishlist${inWishlist ? " product-details__wishlist--active" : ""}`}
+            aria-pressed={inWishlist}
+          >
             <HeartIcon />
-            Add to wishlist
+            {inWishlist ? "Remove from wishlist" : "Add to wishlist"}
           </button>
         </div>
       </div>
